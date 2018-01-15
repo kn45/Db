@@ -25,14 +25,14 @@ def train():
         'nthread': 4,
         'silent': 1,
         'eta': 0.01,
-        'gamma': 0.1,
+        'gamma': 1.0,
         'eval_metric': ['rmse'],
         'max_depth': 5,
         'subsample': 0.7,
         'colsample_bytree': 0.7,
         'objective': 'reg:linear',
         'min_child_weight': 100,
-        'lambda': 1.0}
+        'lambda': 10.0}
     cv_params = {
         'params': bst_params,
         'dtrain': data_train_dmat,
