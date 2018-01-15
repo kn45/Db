@@ -19,6 +19,7 @@ def pred():
 
     # init gbt
     mdl_bst = cPickle.load(open(model_file, 'rb'))
+    print 'best iteration:', mdl_bst.best_iteration
     mdl_bst.set_param('nthread', 1)
     pred_res = mdl_bst.predict(
         data_pred_dmat,
