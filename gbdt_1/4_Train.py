@@ -13,7 +13,8 @@ logging.basicConfig(level=logging.INFO,
 model_file = 'gbt_model.pkl'
 # trainf = 'feat/train_feature.libsvm'
 # validf = 'feat/valid_feature.libsvm'
-trainf = 'feat/trnvld_feature.libsvm'
+# trainf = 'feat/trnvld_feature.libsvm'
+trainf = 'feat/all_feature.libsvm'
 validf = 'feat/test_feature.libsvm'
 
 
@@ -38,7 +39,7 @@ def train():
     train_params = {
         'params': bst_params,
         'dtrain': data_train_dmat,
-        'num_boost_round': 3000,  # max round
+        'num_boost_round': 1100,  # max round
         'evals': [(data_train_dmat, 'train'), (data_valid_dmat, 'valid_0')],
         'maximize': False,
         'early_stopping_rounds': 100,
