@@ -12,15 +12,13 @@ logging.basicConfig(level=logging.INFO,
 
 model_file = 'gbt_model.pkl'
 # trainf = 'feat/train_feature.libsvm'
-# validf = 'feat/valid_feature.libsvm'
-trainf = 'feat/trnvld_feature.libsvm'
-validf = 'feat/test_feature.libsvm'
+# trainf = 'feat/trnvld_feature.libsvm'
+trainf = 'feat/all_feature.libsvm'
 
 
 def train():
     logging.info('loading training data')
     data_train_dmat = xgb.DMatrix(trainf)
-    data_valid_dmat = xgb.DMatrix(validf)
 
     logging.info('start training')
     bst_params = {
@@ -35,22 +33,25 @@ def train():
         'objective': 'reg:linear',
         'min_child_weight': 100,
         'lambda': 1.0}
-    train_params = {
+    cv_params = {
         'params': bst_params,
         'dtrain': data_train_dmat,
         'num_boost_round': 3000,  # max round
-        'evals': [(data_train_dmat, 'train'), (data_valid_dmat, 'valid_0')],
+        'nfold': 4,
+        'metrics': 'rmse',
         'maximize': False,
         'early_stopping_rounds': 100,
         'verbose_eval': True}
-    mdl_bst = xgb.train(**train_params)
+    mdl_bst = xgb.cv(**cv_params)
 
+    """
     logging.info('Saving model')
     # not use save_model mothod because it cannot dump best_iteration etc.
     cPickle.dump(mdl_bst, open(model_file, 'wb'))
 
     feat_imp = mdl_bst.get_score(importance_type='gain').items()
     print sorted(feat_imp, key=itemgetter(1), reverse=True)[0:10]
+    """
 
 
 def test():
@@ -75,4 +76,4 @@ def test():
 
 if __name__ == '__main__':
     train()
-    test()
+    #test()

@@ -19,8 +19,7 @@ feat_pred=feat/pred_feature.libsvm
 
 python 3_Feature.py $data_train $feat_train
 python 3_Feature.py $data_valid $feat_valid
-
 python 3_Feature.py $data_trnvld $feat_trnvld
-
 python 3_Feature.py $data_test $feat_test
 python 3_Feature.py $data_pred $feat_pred
+python 3_Feature.py $data_all $feat_all
