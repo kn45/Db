@@ -11,8 +11,10 @@ logging.basicConfig(level=logging.INFO,
                     format="%(asctime)s [%(levelname)s]: %(message)s")
 
 model_file = 'gbt_model.pkl'
-trainf = 'feat/train_feature.libsvm'
-validf = 'feat/valid_feature.libsvm'
+# trainf = 'feat/train_feature.libsvm'
+# validf = 'feat/valid_feature.libsvm'
+trainf = 'feat/trnvld_feature.libsvm'
+validf = 'feat/test_feature.libsvm'
 
 
 def train():
@@ -26,15 +28,15 @@ def train():
         'silent': 1,
         'eta': 0.01,
         'eval_metric': ['rmse'],
-        'max_depth': 5,
-        'subsample': 0.7,
-        'colsample_bytree': 0.7,
+        'max_depth': 4,
+        'subsample': 0.6,
+        'colsample_bytree': 0.6,
         'objective': 'reg:linear',
-        'lambda': 2.0}
+        'lambda': 10.0}
     train_params = {
         'params': bst_params,
         'dtrain': data_train_dmat,
-        'num_boost_round': 1000,  # max round
+        'num_boost_round': 3000,  # max round
         'evals': [(data_train_dmat, 'train'), (data_valid_dmat, 'valid_0')],
         'maximize': False,
         'early_stopping_rounds': 100,
