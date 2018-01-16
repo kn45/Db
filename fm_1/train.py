@@ -8,8 +8,8 @@ from fm import FMRegressor
 import dataproc
 
 
-INP_DIM =
-HID_DIM = 32
+INP_DIM = 4
+ID_DIM = 32
 REG_W = 0.0
 REG_V = 0.0
 

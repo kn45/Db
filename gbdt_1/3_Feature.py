@@ -5,25 +5,32 @@ import numpy as np
 import sys
 sys.path.append('../utils/')
 from dataproc import *
+from datetime import datetime
 
 
 gender_encoder = DictTable({u'男': 0, u'女': 1})
 
 
+def day_diff(d1, d2):
+    d1 = datetime.strptime(d1, "%d/%m/%Y")
+    d2 = datetime.strptime(d2, "%d/%m/%Y")
+    return abs((d2 - d1).days)
+
+
 def gender_transform(gender_cf):
-    idx = gender_encoder.lookup(gender_cf)
-    try:
-        return id2onehot(idx, 2)
-    except:
-        return ['', '']
-
-
-def gender_transform2(gender_cf):
     idx = gender_encoder.lookup(gender_cf)
     if idx[0] is None:
         return ['']
     else:
         return idx
+
+
+def date_transform(dt):
+    res = []
+    for d in dt:
+        res.append(day_diff(d, '01/09/2017'))
+    return res
+
 
 def drop_cf(cf, st, ed):
     return cf[:st] + cf[ed:]
@@ -50,8 +57,9 @@ if __name__ == '__main__':
         flds = ln.decode('utf8').rstrip('\n').split('\t')
         label = flds[0]
         feats = flds[1:]
-        feats = drop_cf(feats, 3, 4)
-        feats = extend_cf(feats, 1, 2, gender_transform2)
+        #feats = drop_cf(feats, 3, 4)
+        feats = extend_cf(feats, 3, 4, date_transform)
+        feats = extend_cf(feats, 1, 2, gender_transform)
         print >> ofile, cf2libsvm(label, feats)
     ifile.close()
     ofile.close()
