@@ -50,6 +50,52 @@ class DictTable(object):
         return words
 
 
+class BinSpliter(object):
+    def __init__(self):
+        self.data = {}
+
+    def load_bin(self, fname):
+        with open(fname) as f:
+            for ln in f:
+                col_name, sps = ln.rstrip('\n').split('\t')
+                sps = map(float, sps.split(' '))
+                self.data[col_name] = sorted(sps)
+
+    def save_bin(self, fname):
+        with open(fname, 'w') as fo:
+            for col in self.data:
+                print >> fo, col + '\t' + ' '.join(map(str, self.data[col]))
+
+    def add_bin(self, src, col_name, nbins):
+        sorted_data = sorted(src)
+        print sorted_data
+        sps =  []
+        for i in range(nbins-1):  # nbins-1 spliters
+            idx = int((i+1.)/nbins*len(src))
+            print idx
+            sps.append(sorted_data[idx])
+        self.data[col_name] = sps
+
+    def find_bin(self, col, val):
+        low_idx = -1
+        up_idx = 0
+        while True:
+            if low_idx < 0:
+                if val < self.data[col][up_idx]:
+                    return up_idx
+            elif up_idx == len(self.data[col]):
+                return up_idx
+            elif self.data[col][low_idx] <= val < self.data[col][up_idx]:
+                return up_idx
+            low_idx += 1
+            up_idx += 1
+
+    def find_onehot(self, col, val):
+        res = [0] * (len(self.data[col]) + 1)
+        res[self.find_bin(col, val)] = 1
+        return res
+
+
 class BatchReader(object):
     """Get batch data recurrently from a file.
     """
@@ -90,11 +136,13 @@ def sparse2dense(ids, ndim):
         out[idx] = 1
     return out
 
-def id2onehot(ids, ndim):
+
+def id2onehot(idx, ndim):
     out = [0] * ndim
     for idx in ids:
         out[idx] = 1
     return out
+
 
 def zero_padding(inp, seq_len):
     out = np.zeros((seq_len), dtype=np.int32)
@@ -150,7 +198,14 @@ def auc(true_rec, pred_rec):
     sum_auc = sum_pospair / (sum_npos*sum_nneg)
     return sum_auc
 
+
 if __name__ == '__main__':
-    freader = BatchReader('../run.sh', 2)
-    for i in range(5):
-        print freader.get_batch(6)
+    bs = BinSpliter()
+    data = np.random.rand(30)
+    bs.add_bin(data, 't', 5)
+    print bs.data
+    print bs.find_bin('t', 0.0), bs.find_onehot('t', 0)
+    print bs.find_bin('t', 0.3), bs.find_onehot('t', 0.3)
+    print bs.find_bin('t', 0.7), bs.find_onehot('t', 0.7)
+    print bs.find_bin('t', 1.0), bs.find_onehot('t', 1.)
+    bs.save_bin('ttt')
