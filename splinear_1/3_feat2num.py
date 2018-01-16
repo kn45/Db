@@ -57,7 +57,7 @@ if __name__ == '__main__':
         flds = ln.decode('utf8').rstrip('\n').split('\t')
         label = flds[0]
         feats = flds[1:]
-        #feats = drop_cf(feats, 3, 4)
+        # feats = drop_cf(feats, 3, 4)
         feats = extend_cf(feats, 3, 4, date_transform)
         feats = extend_cf(feats, 1, 2, gender_transform)
         print >> ofile, cf2libsvm(label, feats)

@@ -18,7 +18,9 @@ feat_test=feat/test_feature.libsvm
 feat_pred=feat/pred_feature.libsvm
 
 num_all=feat/all_num.libsvm
+
 python 3_feat2num.py $data_all $num_all
+python 3_build_spliter.py $num_all
 
 <<!
 python 3_Feature.py $data_train $feat_train
