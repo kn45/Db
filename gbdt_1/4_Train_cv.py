@@ -11,8 +11,8 @@ logging.basicConfig(level=logging.INFO,
                     format="%(asctime)s [%(levelname)s]: %(message)s")
 
 # trainf = 'feat/train_feature.libsvm'
-# trainf = 'feat/trnvld_feature.libsvm'
-trainf = 'feat/all_feature.libsvm'
+trainf = 'feat/trnvld_feature.libsvm'
+# trainf = 'feat/all_feature.libsvm'
 
 
 def train():
@@ -31,12 +31,13 @@ def train():
         'colsample_bytree': 0.7,
         'objective': 'reg:linear',
         'min_child_weight': 100,
+        'alpha': 1.0,
         'lambda': 1.0}
     cv_params = {
         'params': bst_params,
         'dtrain': data_train_dmat,
         'num_boost_round': 3000,  # max round
-        'nfold': 4,
+        'nfold': 5,
         'metrics': 'rmse',
         'maximize': False,
         'early_stopping_rounds': 200,

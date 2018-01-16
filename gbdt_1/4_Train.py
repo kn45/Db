@@ -13,8 +13,8 @@ logging.basicConfig(level=logging.INFO,
 model_file = 'gbt_model.pkl'
 # trainf = 'feat/train_feature.libsvm'
 # validf = 'feat/valid_feature.libsvm'
-# trainf = 'feat/trnvld_feature.libsvm'
-trainf = 'feat/all_feature.libsvm'
+trainf = 'feat/trnvld_feature.libsvm'
+# trainf = 'feat/all_feature.libsvm'
 # validf = 'feat/test_feature.libsvm'
 
 
@@ -39,7 +39,7 @@ def train():
     train_params = {
         'params': bst_params,
         'dtrain': data_train_dmat,
-        'num_boost_round': 1200,  # max round
+        'num_boost_round': 837,  # max round
         # 'evals': [(data_train_dmat, 'train'), (data_valid_dmat, 'valid_0')],
         'evals': [(data_train_dmat, 'train')],
         'maximize': False,
@@ -66,7 +66,7 @@ def test():
     mdl_bst.set_param('eval_metric', 'rmse')
 
     test_metric = mdl_bst.eval_set([(data_test_dmat, 'test_0')])
-    print float(test_metric.split(':')[-1]) ** 2 / 2.
+    print test_metric.split(':')[-1], float(test_metric.split(':')[-1]) ** 2 / 2.
     pred_res = mdl_bst.predict(
         data_test_dmat,
         ntree_limit=mdl_bst.best_iteration)
@@ -77,4 +77,4 @@ def test():
 
 if __name__ == '__main__':
     train()
-    # test()
+    test()
