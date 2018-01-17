@@ -45,6 +45,9 @@ class FMCore(object):
                 lambda_w * tf.nn.l2_loss(self.W) + \
                 lambda_v * tf.nn.l2_loss(self.V)
 
+        # saver and loader
+        self.saver = tf.train.Saver()
+
     def train_step(self, sess, inp_x, inp_y):
         input_dict = {
             self.inp_x: inp_x,
@@ -58,10 +61,9 @@ class FMCore(object):
             self.inp_y: inp_y}
         return sess.run(self.loss, feed_dict=input_dict)
 
-    def _predict(self, sess, inp_x, inp_y):
+    def _predict(self, sess, inp_x):
         input_dict = {
-            self.inp_x: inp_x,
-            self.inp_y: inp_y}
+            self.inp_x: inp_x}
         return sess.run(self.preds, feed_dict=input_dict)
 
 
@@ -81,8 +83,8 @@ class FMClassifier(FMCore):
         self.opt = tf.train.AdamOptimizer(lr).minimize(
             self.total_loss, global_step=self.global_step)
 
-    def predict_proba(self, sess, inp_x, inp_y):
-        return self._predict(self, sess, inp_x, inp_y)
+    def predict_proba(self, sess, inp_x):
+        return self._predict(self, sess, inp_x)
 
 
 class FMRegressor(FMCore):
@@ -99,6 +101,10 @@ class FMRegressor(FMCore):
             self.total_loss = self.loss + self.reg_loss
         self.opt = tf.contrib.opt.LazyAdamOptimizer(lr).minimize(
             self.total_loss, global_step=self.global_step)
+
+    def predict(self, sess, inp_x):
+        return self._predict(self, sess, inp_x)
+
 
 if __name__ == '__main__':
     mdl = FMClassifier(5)

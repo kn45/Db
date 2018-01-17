@@ -9,7 +9,7 @@ from datetime import datetime
 
 
 bs = BinSpliter()
-bs.load_bin('feat_bin')
+bs.load_bin('feat/feat_bin')
 
 def expand_feats(feats):
     res = []

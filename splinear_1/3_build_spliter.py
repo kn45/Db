@@ -19,4 +19,4 @@ with open(data_file) as fin:
 
 for idx in data:
     spliter.add_bin(data[idx], 'f'+idx, 32)
-spliter.save_bin('feat_bin')
+spliter.save_bin('feat/feat_bin')
