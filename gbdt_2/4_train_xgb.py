@@ -27,20 +27,20 @@ def train():
     bst_params = {
         'nthread': 4,
         'silent': 1,
-        'eta': 0.01,
+        'eta': 0.05,
         'gamma': 1.0,
         'eval_metric': ['rmse'],
         'max_depth': 5,
         'subsample': 0.7,
         'colsample_bytree': 0.7,
         'objective': 'reg:linear',
-        'min_child_weight': 100,
-        'alpha': 1.0,
-        'lambda': 1.0}
+        'min_child_weight': 0.1,
+        'alpha': 0.1,
+        'lambda': 0.1}
     train_params = {
         'params': bst_params,
         'dtrain': data_train_dmat,
-        'num_boost_round': 837,  # max round
+        'num_boost_round': 2380,  # max round
         # 'evals': [(data_train_dmat, 'train'), (data_valid_dmat, 'valid_0')],
         'evals': [(data_train_dmat, 'train')],
         'maximize': False,
