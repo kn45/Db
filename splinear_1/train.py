@@ -9,8 +9,8 @@ import dataproc
 from fm import FMRegressor
 
 INP_DIM = 1312
-HID_DIM = 128
-REG_W = 0.1  # 1st
+HID_DIM = 16
+REG_W = 0.01  # 1st
 REG_V = 0.1  # 2nd
 
 LR = 1e-4
