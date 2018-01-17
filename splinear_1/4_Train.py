@@ -78,7 +78,7 @@ print "model saved:", save_path
 with open(PRED_FILE) as fpred:
     pred_data = [x.rstrip('\n') for x in fpred.readlines()]
 pred_x, pred_y = inp_fn(pred_data)
-with open('pred_res', 'w') as f:
+with open('pred_res.csv', 'w') as f:
     preds = mdl.predict(sess, pred_x)
     for p in preds:
         print >> f, p[0]
