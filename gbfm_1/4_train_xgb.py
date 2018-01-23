@@ -13,9 +13,11 @@ logging.basicConfig(level=logging.INFO,
 model_file = 'gbt_model.pkl'
 trainf = 'feat/trnvld_feature.libsvm'
 testf = 'feat/test_feature.libsvm'
+predf = 'feat/pred_feature.libsvm'
 
 train_leaf_feat = 'feat/trnvld_leaf'
 test_leaf_feat = 'feat/test_leaf'
+pred_leaf_feat = 'feat/pred_leaf'
 
 def train():
     logging.info('loading training data')
@@ -97,3 +99,4 @@ if __name__ == '__main__':
     #test()
     transform(trainf, train_leaf_feat)
     transform(testf, test_leaf_feat)
+    transform(predf, pred_leaf_feat)

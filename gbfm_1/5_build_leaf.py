@@ -5,10 +5,14 @@ from functools import reduce
 
 
 leaf_dict_file = 'feat/leaf_dict'
+
 train_leaf_feat = 'feat/trnvld_leaf'
 test_leaf_feat = 'feat/test_leaf'
+pred_leaf_feat = 'feat/pred_leaf'
+
 train_fm_feat = 'feat/trnvld_leaf.libfm'
 test_fm_feat = 'feat/test_leaf.libfm'
+pred_fm_feat = 'feat/pred_leaf.libfm'
 
 def build_dict():
     files = ['feat/trnvld_leaf',
@@ -47,5 +51,6 @@ def trans2libfm(ifn, ofn):
 
 if __name__ == '__main__':
     #build_dict()
-    trans2libfm(test_leaf_feat, test_fm_feat)
-    trans2libfm(train_leaf_feat, train_fm_feat)
+    #trans2libfm(test_leaf_feat, test_fm_feat)
+    #trans2libfm(train_leaf_feat, train_fm_feat)
+    trans2libfm(pred_leaf_feat, pred_fm_feat)
